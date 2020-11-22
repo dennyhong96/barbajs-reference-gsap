@@ -84,7 +84,7 @@
       "always"
     ],
     "object-property-newline": [
-      "error"
+      "off"
     ],
     "quotes": [
       "error",
