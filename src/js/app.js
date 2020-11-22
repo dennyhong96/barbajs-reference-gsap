@@ -1,5 +1,8 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import barba from "@barba/core";
 import gsap from "gsap";
+
 import { animationEnter, animationLeave } from "./animation";
 
 const resetActiveLink = () =>

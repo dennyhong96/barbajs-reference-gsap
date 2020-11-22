@@ -15,15 +15,19 @@ const animationEnter = (container) => {
     },
   });
 
-  timeline
-    // Immdiately reveal projects
-    .set(projects, { autoAlpha: 1 })
-    // Animate active link border bottom style
-    .fromTo(activeLinkBorder, { xPercent: -101 }, { xPercent: 0, transformOrigin: "left" }, 0)
-    // animate in project image containers from left
-    .from(imageContainers, { xPercent: -101, stagger: 0.1 }, 0) // 0 => absolute delay, "-=0.5" relative delay
-    // animate in project images from right
-    .from(images, { xPercent: 101, stagger: 0.1 }, 0);
+  timeline.timeScale(0.1);
+
+  return (
+    timeline
+      // Immdiately reveal projects
+      .set(projects, { autoAlpha: 1 })
+      // Animate active link border bottom style
+      .fromTo(activeLinkBorder, { xPercent: -101 }, { xPercent: 0, transformOrigin: "left" }, 0)
+      // animate in project image containers from left
+      .from(imageContainers, { xPercent: -101, stagger: 0.1 }, 0) // 0 => absolute delay, "-=0.5" relative delay
+      // animate in project images from right
+      .from(images, { xPercent: 101, stagger: 0.1 }, 0)
+  );
 };
 
 // const animationEnter = (container) =>
