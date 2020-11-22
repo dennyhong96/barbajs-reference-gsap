@@ -15,8 +15,9 @@ const animationEnter = (container) => {
     },
   });
 
-  timeline.timeScale(0.1);
+  // timeline.timeScale(0.1);
 
+  // Must return timeline
   return (
     timeline
       // Immdiately reveal projects
