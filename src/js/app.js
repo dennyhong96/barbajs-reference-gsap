@@ -1,6 +1,10 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+
 import barba from "@barba/core";
+import barbaPrefetch from "@barba/prefetch";
+import barbaRouter from "@barba/router";
+
 import gsap from "gsap";
 
 import {
@@ -11,25 +15,56 @@ import {
   leaveToProject,
 } from "./animation";
 
-// Scroll to top whenever a new transition enters
-// Barba global hook
-barba.hooks.enter(() => {
-  console.log("Global enter hook...");
-  window.scrollTo(0, 0);
-});
-
-// Triggers after any transition happens
-barba.hooks.after(() => {
-  console.log("Global after hook...");
-});
-
 const resetActiveLink = () =>
   gsap.set(".is-active span", {
     xPercent: -100,
     transformOrigin: "left",
   });
 
+// Prefetch all pages whose link is the viewport
+barba.use(barbaPrefetch);
+
+// Use barba router plugin for more transition rule priority
+const routes = [
+  { name: "home", path: "/index.html" },
+  { name: "architecture", path: "/architecture.html" },
+  { name: "detail", path: "/detail.html" }, // path:"detail/:id" - dynamic routes
+];
+barba.use(barbaRouter, { routes });
+
+// Scroll to top whenever a new transition enters
+// Barba global hook
+barba.hooks.enter(
+  ({
+    next: {
+      route: { name },
+    },
+  }) => {
+    console.log(`Global enter hook... Entering route: ${name}`);
+    window.scrollTo(0, 0);
+  }
+);
+
+// Triggers after any transition happens
+barba.hooks.after(() => {
+  console.log("Global after hook...");
+});
+
 barba.init({
+  // Views are for execute code before and after transition that is specific to one page
+  // Good to init and destroy things
+  views: [
+    {
+      namespace: "architecture",
+      beforeLeave() {
+        console.log("beforeLeave hook on architecture View triggered");
+      },
+      beforeEnter() {
+        console.log("beforeEnter hook on architecture View triggered");
+      },
+    },
+  ],
+
   transitions: [
     {
       name: "detail",
